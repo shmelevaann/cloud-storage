@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<GridPane alignment="center" hgap="10" prefHeight="393.0" prefWidth="350.0" vgap="10"
+          xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
+          fx:controller="ru.geekbrains.chiffa.cloudstorage.Controller">
+    <columnConstraints>
+        <ColumnConstraints/>
+        <ColumnConstraints/>
+        <ColumnConstraints/>
+        <ColumnConstraints/>
+        <ColumnConstraints/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+        <RowConstraints/>
+    </rowConstraints>
+    <children>
+        <AnchorPane prefHeight="405.0" prefWidth="559.0" GridPane.columnIndex="1">
+            <children>
+                <Button fx:id="uploadButton" layoutX="259.0" layoutY="352.0" mnemonicParsing="false" onAction="#upload"
+                        prefHeight="25.0" prefWidth="73.0" text="Upload"/>
+                <Button fx:id="refreshButton" layoutX="259.0" layoutY="91.0" mnemonicParsing="false" onAction="#refresh"
+                        prefHeight="25.0"
+                        prefWidth="73.0" text="Refresh"/>
+                <ListView fx:id="storageFilesListView" layoutX="7.0" layoutY="91.0" prefHeight="250.0"
+                          prefWidth="223.0"/>
+                <Button fx:id="renameButton" layoutX="259.0" layoutY="124.0" mnemonicParsing="false" onAction="#rename"
+                        prefHeight="25.0"
+                        prefWidth="73.0" text="Rename"/>
+                <Button fx:id="downloadButton" layoutX="259.0" layoutY="157.0" mnemonicParsing="false"
+                        onAction="#download" prefHeight="25.0"
+                        prefWidth="73.0" text="Download"/>
+                <Button fx:id="deleteButton" layoutX="259.0" layoutY="189.0" mnemonicParsing="false" onAction="#delete"
+                        prefHeight="25.0"
+                        prefWidth="73.0" text="Delete"/>
+                <TextField fx:id="filePathTextField" editable="false" layoutX="7.0" layoutY="352.0" prefHeight="25.0"
+                           prefWidth="223.0"/>
+                <Button fx:id="browseButton" layoutX="230.0" layoutY="352.0" mnemonicParsing="false"
+                        onAction="#openBrowseDialog" prefHeight="25.0" prefWidth="24.0" text="..."/>
+                <TextField fx:id="usernameTextField" layoutX="81.0" layoutY="14.0" onAction="#signIn"/>
+                <Label layoutX="7.0" layoutY="18.0" text="Username:"/>
+                <Button fx:id="signInButton" layoutX="259.0" layoutY="14.0" mnemonicParsing="false" onAction="#signIn"
+                        prefHeight="25.0"
+                        prefWidth="73.0" text="Sign in"/>
+            </children>
+        </AnchorPane>
+    </children>
+</GridPane>
