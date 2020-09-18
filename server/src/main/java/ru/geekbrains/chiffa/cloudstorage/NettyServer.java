@@ -14,6 +14,8 @@ import io.netty.handler.stream.ChunkedWriteHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
@@ -47,7 +49,11 @@ public class NettyServer implements AutoCloseable {
                 });
     }
 
-    public void start() throws InterruptedException {
+    public void start() throws InterruptedException, IOException {
+        if (!Files.exists(storagePath)) {
+            Files.createDirectory(storagePath);
+        }
+
         Channel channel = serverBootstrap.bind(8888).sync().channel();
         logger.info("Server started");
         channel.closeFuture().sync();
@@ -60,7 +66,7 @@ public class NettyServer implements AutoCloseable {
         logger.info("Server closed");
     }
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, IOException {
         try (NettyServer server = new NettyServer(Paths.get("server_storage"))) {
             server.start();
         }

@@ -122,7 +122,10 @@ public class Controller implements Initializable {
     }
 
     public void signIn() {
-        client = new Client(usernameTextField.getText(), Executors.newSingleThreadExecutor());
+        client = new Client(
+                usernameTextField.getText(),
+                Executors.newSingleThreadExecutor(),
+                Paths.get("client_storage"));
         refresh();
         unsignedIn.set(false);
     }

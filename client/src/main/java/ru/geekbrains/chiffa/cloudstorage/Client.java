@@ -14,14 +14,15 @@ import java.util.concurrent.ExecutorService;
 
 public class Client {
     public static final int BUFFER_SIZE = 4096;
-    private final Path rootDir = Paths.get("./Downloads");
+    private final Path rootDir;
     private final String userName;
     private Socket socket;
     private final ExecutorService executorService;
 
-    public Client(String clientName, ExecutorService executorService) {
+    public Client(String clientName, ExecutorService executorService, Path rootDir) {
         this.userName = clientName;
         this.executorService = executorService;
+        this.rootDir = rootDir;
     }
 
     private void connect() {
@@ -118,9 +119,9 @@ public class Client {
         return CompletableFuture.supplyAsync(() -> {
             connect();
 
-            try (InputStream is = socket.getInputStream();
-                 ObjectEncoderOutputStream ous = new ObjectEncoderOutputStream(socket.getOutputStream());
-                 ObjectDecoderInputStream ois = new ObjectDecoderInputStream(is)) {
+            try (ObjectEncoderOutputStream ous = new ObjectEncoderOutputStream(socket.getOutputStream());
+                 ObjectDecoderInputStream ois = new ObjectDecoderInputStream(socket.getInputStream())) {
+
                 ous.writeObject(new DownloadRequest(userName, fileName));
 
                 Object response = ois.readObject();
@@ -136,7 +137,12 @@ public class Client {
     }
 
     private boolean handleDownloadResponse(DownloadResponse response, ObjectDecoderInputStream is) throws IOException, ClassNotFoundException {
-        Path destPath = Paths.get(rootDir.toString(), response.getFilename());
+        Path userDir = rootDir.resolve(userName);
+        if (!Files.exists(userDir)) {
+            Files.createDirectories(userDir);
+        }
+
+        Path destPath = userDir.resolve(response.getFilename());
         long fileSize = response.getFileSize();
 
         if (!Files.exists(destPath)) {
