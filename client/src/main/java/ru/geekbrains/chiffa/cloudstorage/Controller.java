@@ -159,7 +159,7 @@ public class Controller implements Initializable {
             } else {
                 loadingInProgress.set(true);
                 client.rename(fileName, newFileName).thenAccept(files -> {
-                    setFilesListView(files);
+                    Platform.runLater(() -> setFilesListView(files));
                     loadingInProgress.set(false);
                 });
             }
